@@ -15,12 +15,12 @@ var (
 	port = flag.Int("port", 50051, "The server port")
 )
 
-// server is used to implement Rollerworld.RollerServer.
+// server is used to implement Roller.RollerServer.
 type server struct {
 	pb.UnimplementedRollerServer
 }
 
-// SayRoller implements Rollerworld.RollerServer
+// Roll implements Roller.RollerServer
 func (s *server) Roll(ctx context.Context, in *pb.RollerRequest) (*pb.RollerReply, error) {
 	log.Printf("Received: %v", in.GetName())
 	return &pb.RollerReply{Message: "Roller " + in.GetName()}, nil
