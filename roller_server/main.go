@@ -23,7 +23,7 @@ type server struct {
 // Roll implements Roller.RollerServer
 func (s *server) Roll(ctx context.Context, in *pb.RollerRequest) (*pb.RollerReply, error) {
 	log.Printf("Received: %v", in.GetName())
-	return &pb.RollerReply{Message: "Roller " + in.GetName()}, nil
+	return &pb.RollerReply{Message: in.GetName()}, nil
 }
 
 func main() {
