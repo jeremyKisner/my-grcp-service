@@ -12,12 +12,12 @@ import (
 )
 
 const (
-	defaultName = "world"
+	defaultName = "player_name"
 )
 
 var (
-	addr = flag.String("addr", "localhost:50051", "the address to connect to")
-	name = flag.String("name", defaultName, "Name to greet")
+	addr = flag.String("addr", "localhost:50051", "address:port to connect to")
+	name = flag.String("name", defaultName, "Name to roll for")
 )
 
 func main() {
@@ -35,7 +35,7 @@ func main() {
 	defer cancel()
 	r, err := c.Roll(ctx, &pb.RollerRequest{Name: *name})
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatalf("could not roll: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GetMessage())
+	log.Printf("%s rolled a %s", r.GetMessage(), r.GetTotal())
 }
