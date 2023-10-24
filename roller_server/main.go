@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 
 	pb "github.com/jeremyKisner/my-grcp-service/rollerService"
@@ -23,7 +24,12 @@ type server struct {
 // Roll implements Roller.RollerServer
 func (s *server) Roll(ctx context.Context, in *pb.RollerRequest) (*pb.RollerReply, error) {
 	log.Printf("Received: %v", in.GetName())
-	return &pb.RollerReply{Message: in.GetName()}, nil
+	randomInt := rand.Intn(100) + 1
+	log.Printf("Received: %v", randomInt)
+	return &pb.RollerReply{
+		Message: in.GetName(),
+		Total:   fmt.Sprint(randomInt),
+	}, nil
 }
 
 func main() {

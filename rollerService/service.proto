@@ -5,14 +5,15 @@ option java_multiple_files = true;
 
 package rollerService;
 
-service Roller {
-  rpc Roll (RollerRequest) returns (RollerReply) {}
-}
-
 message RollerRequest {
   string name = 1;
 }
 
 message RollerReply {
   string message = 1;
+  string total = 2;
+}
+
+service Roller {
+  rpc Roll (RollerRequest) returns (RollerReply) {}
 }

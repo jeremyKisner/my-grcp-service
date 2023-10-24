@@ -49,6 +49,7 @@ func Test_server_Roll(t *testing.T) {
 			got, err := client.Roll(ctx, tt.in)
 			assert.NoError(t, err)
 			assert.Equal(t, tt.expected.Message, got.Message)
+			assert.NotNil(t, got.Total)
 		})
 	}
 }
