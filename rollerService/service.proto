@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "rollerService/";
+option java_multiple_files = true;
+
+package rollerService;
+
+service Roller {
+  rpc Roll (RollerRequest) returns (RollerReply) {}
+}
+
+message RollerRequest {
+  string name = 1;
+}
+
+message RollerReply {
+  string message = 1;
+}
