@@ -12,6 +12,10 @@ Run protoc executable like:
 D:\Programming\scripts\bin\protoc.exe --go_out=. --go-grpc_out=. .\rollerService\service.proto
 ```
 
+## Run Tests
+``` bash
+go test ./...
+```
 
 ## Locally Run Service with Docker
 
