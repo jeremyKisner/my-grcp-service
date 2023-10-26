@@ -37,14 +37,6 @@ func Start() {
 	defer conn.Close()
 	c := pb.NewRollerClient(conn)
 
-	// Contact the server and print out its response.
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.Roll(ctx, &pb.RollerRequest{Name: *name})
-	if err != nil {
-		log.Fatalf("could not roll: %v", err)
-	}
-
 	err = keyboard.Open()
 	if err != nil {
 		fmt.Println(err)
@@ -52,8 +44,7 @@ func Start() {
 	}
 	defer keyboard.Close()
 
-	fmt.Println("Press any key (Press 'q' to quit)")
-
+	fmt.Println("Press any key (Press 'q' or 'esc' to quit)")
 	for {
 		char, key, err := keyboard.GetKey()
 		if err != nil {
@@ -64,9 +55,20 @@ func Start() {
 			log.Printf("terminating program")
 			break
 		} else if char == 'r' {
-			log.Printf("%s rolled a %s", r.GetMessage(), r.GetTotal())
+			// Contact the server and print out its response.
+			ClientRoll(c)
 		} else {
 			fmt.Printf("unsupported key bind pressed: %s\n", string(char))
 		}
 	}
+}
+
+func ClientRoll(c pb.RollerClient) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.Roll(ctx, &pb.RollerRequest{Name: *name})
+	if err != nil {
+		log.Fatalf("could not roll: %v", err)
+	}
+	log.Printf("%s rolled a %s", r.GetMessage(), r.GetTotal())
 }

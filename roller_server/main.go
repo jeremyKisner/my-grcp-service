@@ -21,10 +21,14 @@ type server struct {
 	pb.UnimplementedRollerServer
 }
 
+var rollCounter int
+
 // Roll implements Roller.RollerServer
 func (s *server) Roll(ctx context.Context, in *pb.RollerRequest) (*pb.RollerReply, error) {
 	log.Printf("Received request from: '%v'", in.GetName())
 	randomInt := rand.Intn(100) + 1
+	rollCounter++
+	log.Printf("Total rolls today: '%v'", rollCounter)
 	return &pb.RollerReply{
 		Message: in.GetName(),
 		Total:   fmt.Sprint(randomInt),
