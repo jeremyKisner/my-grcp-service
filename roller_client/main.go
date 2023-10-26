@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -39,16 +38,16 @@ func Start() {
 
 	err = keyboard.Open()
 	if err != nil {
-		fmt.Println(err)
+		log.Printf("error opening keyboard: %v:", err)
 		os.Exit(1)
 	}
 	defer keyboard.Close()
 
-	fmt.Println("Press any key (Press 'q' or 'esc' to quit)")
+	log.Printf("Press any key (Press 'q' or 'esc' to quit)")
 	for {
 		char, key, err := keyboard.GetKey()
 		if err != nil {
-			fmt.Println(err)
+			log.Print(err)
 			break
 		}
 		if key == keyboard.KeyEsc || char == 'q' {
@@ -58,7 +57,7 @@ func Start() {
 			// Contact the server and print out its response.
 			ClientRoll(c)
 		} else {
-			fmt.Printf("unsupported key bind pressed: %s\n", string(char))
+			log.Printf("unsupported key bind pressed: %s\n", string(char))
 		}
 	}
 }
