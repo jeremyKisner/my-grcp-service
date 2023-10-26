@@ -4,8 +4,10 @@ import (
 	"context"
 	"flag"
 	"log"
+	"os"
 	"time"
 
+	"github.com/eiannone/keyboard"
 	pb "github.com/jeremyKisner/my-grcp-service/rollerService"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -22,6 +24,10 @@ var (
 
 func main() {
 	flag.Parse()
+	Start()
+}
+
+func Start() {
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
@@ -30,7 +36,33 @@ func main() {
 	defer conn.Close()
 	c := pb.NewRollerClient(conn)
 
-	// Contact the server and print out its response.
+	err = keyboard.Open()
+	if err != nil {
+		log.Printf("error opening keyboard: %v:", err)
+		os.Exit(1)
+	}
+	defer keyboard.Close()
+
+	log.Printf("Press any key (Press 'q' or 'esc' to quit)")
+	for {
+		char, key, err := keyboard.GetKey()
+		if err != nil {
+			log.Print(err)
+			break
+		}
+		if key == keyboard.KeyEsc || char == 'q' {
+			log.Printf("terminating program")
+			break
+		} else if char == 'r' {
+			// Contact the server and print out its response.
+			ClientRoll(c)
+		} else {
+			log.Printf("unsupported key bind pressed: %s\n", string(char))
+		}
+	}
+}
+
+func ClientRoll(c pb.RollerClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	r, err := c.Roll(ctx, &pb.RollerRequest{Name: *name})
