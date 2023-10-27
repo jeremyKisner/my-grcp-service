@@ -8,7 +8,7 @@ import (
 	"math/rand"
 	"net"
 
-	pb "github.com/jeremyKisner/my-grcp-service/rollerService"
+	pb "github.com/jeremyKisner/my-grcp-service/roller/rollerService"
 	"google.golang.org/grpc"
 )
 

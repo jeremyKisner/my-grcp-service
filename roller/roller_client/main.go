@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/eiannone/keyboard"
-	pb "github.com/jeremyKisner/my-grcp-service/rollerService"
+	pb "github.com/jeremyKisner/my-grcp-service/roller/rollerService"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

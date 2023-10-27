@@ -5,7 +5,7 @@ import (
 	"net"
 	"testing"
 
-	pb "github.com/jeremyKisner/my-grcp-service/rollerService"
+	pb "github.com/jeremyKisner/my-grcp-service/roller/rollerService"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
