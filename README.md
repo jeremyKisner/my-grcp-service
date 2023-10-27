@@ -1,4 +1,5 @@
 # my-grcp-service
+
 This is an example gRCP client-server project in Go.
 
 
@@ -9,12 +10,20 @@ Pre-requisite:
 
 Run protoc executable like:
 ``` bash
-D:\Programming\scripts\bin\protoc.exe --go_out=. --go-grpc_out=. .\rollerService\service.proto
+D:\Programming\scripts\bin\protoc.exe --go_out=. --go-grpc_out=. .\roller\rollerService\service.proto
 ```
 
 ## Run Tests
+
 ``` bash
 go test ./...
+```
+
+## Build Locally
+
+Build it!
+``` bash
+go build -o ./bin/roller_server ./roller/roller_server
 ```
 
 ## Locally Run Service with Docker
