@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.24.4
-// source: rollerService/service.proto
+// source: roller/rollerService/service.proto
 
 package rollerService
 
@@ -105,5 +105,5 @@ var Roller_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "rollerService/service.proto",
+	Metadata: "roller/rollerService/service.proto",
 }

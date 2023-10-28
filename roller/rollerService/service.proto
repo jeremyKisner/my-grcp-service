@@ -12,6 +12,9 @@ message RollerRequest {
 message RollerReply {
   string message = 1;
   string total = 2;
+  int64 playerScore = 3;
+  int64 aiScore = 4;
+  bool playerWins = 5;
 }
 
 service Roller {

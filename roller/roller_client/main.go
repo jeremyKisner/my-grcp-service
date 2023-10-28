@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -44,6 +45,8 @@ func Start() {
 	defer keyboard.Close()
 
 	log.Printf("Press any key (Press 'q' or 'esc' to quit)")
+	sessionWins := 0
+	sessionLosses := 0
 	for {
 		char, key, err := keyboard.GetKey()
 		if err != nil {
@@ -51,23 +54,30 @@ func Start() {
 			break
 		}
 		if key == keyboard.KeyEsc || char == 'q' {
-			log.Printf("terminating program")
+			log.Printf("%s Wins - %s Losses", fmt.Sprint(sessionWins), fmt.Sprint(sessionLosses))
+			log.Printf("game over")
 			break
 		} else if char == 'r' {
 			// Contact the server and print out its response.
-			ClientRoll(c)
+			ClientRoll(c, &sessionWins, &sessionLosses)
 		} else {
 			log.Printf("unsupported key bind pressed: %s\n", string(char))
 		}
 	}
 }
 
-func ClientRoll(c pb.RollerClient) {
+func ClientRoll(c pb.RollerClient, wins *int, losses *int) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	r, err := c.Roll(ctx, &pb.RollerRequest{Name: *name})
 	if err != nil {
 		log.Fatalf("could not roll: %v", err)
 	}
-	log.Printf("%s rolled a %s", r.GetMessage(), r.GetTotal())
+	if r.GetPlayerWins() {
+		*wins++
+		log.Printf("You Win! %s rolled a %s to win over %s!", r.GetMessage(), fmt.Sprint(r.GetTotal()), fmt.Sprint(r.GetAiScore()))
+	} else {
+		*losses++
+		log.Printf("You Lose! %s rolled a %s to lose against %s!", r.GetMessage(), fmt.Sprint(r.GetTotal()), fmt.Sprint(r.GetAiScore()))
+	}
 }

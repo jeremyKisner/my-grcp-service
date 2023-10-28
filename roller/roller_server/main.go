@@ -26,13 +26,24 @@ var rollCounter int
 // Roll implements Roller.RollerServer
 func (s *server) Roll(ctx context.Context, in *pb.RollerRequest) (*pb.RollerReply, error) {
 	log.Printf("Received request from: '%v'", in.GetName())
-	randomInt := rand.Intn(100) + 1
+	playerInt := rand.Intn(100) + 1
+	aiInt := rand.Intn(100) + 1
+	log.Printf("%v: '%v' - AI: '%v'", in.GetName(), playerInt, aiInt)
+	playerWins := playerWins(playerInt, aiInt)
 	rollCounter++
-	log.Printf("Total rolls today: '%v'", rollCounter)
+
+	log.Printf("Total rolls: '%v'", rollCounter)
 	return &pb.RollerReply{
-		Message: in.GetName(),
-		Total:   fmt.Sprint(randomInt),
+		Message:     in.GetName(),
+		Total:       fmt.Sprint(playerInt),
+		PlayerScore: int64(playerInt),
+		AiScore:     int64(aiInt),
+		PlayerWins:  playerWins,
 	}, nil
+}
+
+func playerWins(player int, computer int) bool {
+	return player > computer
 }
 
 func main() {
