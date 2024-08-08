@@ -34,7 +34,7 @@ func Test_server_Roll(t *testing.T) {
 
 			go func() {
 				if err := s.Serve(lis); err != nil {
-					t.Fatalf("Server exited with error: %v", err)
+					t.Fail()
 				}
 			}()
 			defer s.Stop()

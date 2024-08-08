@@ -2,38 +2,39 @@
 
 This is an example gRCP client-server project in Go.
 
-
-## Generate Service
-
-Pre-requisite:
-1. install [protoc](https://grpc.io/docs/protoc-installation/)
-
-Run protoc executable like:
+## Getting Started
+1. Install [protoc](https://grpc.io/docs/protoc-installation/)
+2. Run protoc executable like:
 ``` bash
-D:\Programming\scripts\bin\protoc.exe --go_out=. --go-grpc_out=. .\roller\rollerService\service.proto
+protoc.exe --go_out=. --go-grpc_out=. .\roller\rollerService\service.proto
 ```
-
-## Run Tests
-
+3. Run unit tests
 ``` bash
 go test ./...
 ```
 
 ## Build Locally
-
-Build it!
+1. Start server.
 ``` bash
-go build -o ./bin/roller_server ./roller/roller_server
+go run .\roller\roller_server\main.go
 ```
+2. Start client.
+``` bash
+go run .\roller\roller_client\main.go
+```
+3. While the server is running, use the client to send commands. The following keybinds exist:
+    - **r** :: rolls a number 0-100 against the server.
 
 ## Locally Run Service with Docker
-
-Build it!
+1. Build the server.
 ``` bash
 docker build -t roller_server .
 ```
-
-Serve it!
+2. Start server.
 ``` bash
 docker run -p 50051:50051 roller_server
+```
+3. Start client.
+``` bash
+go run .\roller\roller_client\main.go
 ```
